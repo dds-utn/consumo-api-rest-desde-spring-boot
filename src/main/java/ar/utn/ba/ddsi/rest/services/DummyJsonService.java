@@ -1,7 +1,7 @@
 package ar.utn.ba.ddsi.rest.services;
 
-import ar.utn.ba.ddsi.rest.models.external.Product;
-import ar.utn.ba.ddsi.rest.models.external.ProductResponse;
+import ar.utn.ba.ddsi.rest.models.dtos.external.DummyJsonProductDTO;
+import ar.utn.ba.ddsi.rest.models.dtos.external.DummyJsonProductsReponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -16,16 +16,18 @@ public class DummyJsonService {
         this.webClient = webClientBuilder.baseUrl("https://dummyjson.com").build();
     }
 
-    public Mono<List<Product>> getAllProducts() {
-        return webClient.get()
+    public Mono<List<DummyJsonProductDTO>> getAllProducts() {
+        return webClient
+                .get()
                 .uri("/products")
                 .retrieve()
-                .bodyToMono(ProductResponse.class)
-                .map(ProductResponse::getProducts);
+                .bodyToMono(DummyJsonProductsReponseDTO.class)
+                .map(DummyJsonProductsReponseDTO::getProducts);
     }
 
-    public Mono<List<Product>> getProductsWithParams(Integer limit, Integer skip, String select) {
-        return webClient.get()
+    public Mono<List<DummyJsonProductDTO>> getProductsWithParams(Integer limit, Integer skip, String select) {
+        return webClient
+                .get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/products")
                         .queryParam("limit", limit)
@@ -33,14 +35,15 @@ public class DummyJsonService {
                         .queryParam("select", select)
                         .build())
                 .retrieve()
-                .bodyToMono(ProductResponse.class)
-                .map(ProductResponse::getProducts);
+                .bodyToMono(DummyJsonProductsReponseDTO.class)
+                .map(DummyJsonProductsReponseDTO::getProducts);
     }
 
-    public Mono<Product> getProductById(Long id) {
-        return webClient.get()
+    public Mono<DummyJsonProductDTO> getProductById(Long id) {
+        return webClient
+                .get()
                 .uri("/products/{id}", id)
                 .retrieve()
-                .bodyToMono(Product.class);
+                .bodyToMono(DummyJsonProductDTO.class);
     }
 } 

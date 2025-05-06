@@ -1,9 +1,9 @@
-package ar.utn.ba.ddsi.rest.models.external;
+package ar.utn.ba.ddsi.rest.models.dtos.external;
 
 import lombok.Data;
 
 @Data
-public class Product {
+public class DummyJsonProductDTO {
     private Long id;
     private String title;
     private String description;
